@@ -1,0 +1,27 @@
+FROM ubuntu:latest
+
+MAINTAINER yangsbj@cn.ibm.com
+
+RUN apt-get install -y wget
+ 
+RUN apt-get install -y openssh-server
+
+RUN wget -O - "http://sourceforge.net/projects/xcat/files/ubuntu/apt.key/download" | apt-key add -
+
+RUN echo "deb http://xcat.org/files/xcat/repos/apt/2.11/xcat-core trusty main" > /etc/apt/sources.list.d/xcat-core.list
+
+RUN echo "deb http://xcat.org/files/xcat/repos/apt/xcat-dep trusty main" > /etc/apt/sources.list.d/xcat-dep.list
+
+RUN apt-get update
+
+RUN apt-get -y install xcat
+
+RUN mkdir -p /install/sources
+
+VOLUME ["/install/sources","/var/log/xcat/"]
+
+COPY startservice.sh /bin/startservice.sh
+
+RUN chmod +x /bin/startservice.sh
+
+ENTRYPOINT ["/bin/startservice.sh"]
