@@ -4,9 +4,7 @@ MAINTAINER yangsbj@cn.ibm.com
 
 RUN apt-get update && apt-get install -y \
             wget \
-            openssh-server \
-            && apt-get clean \
-            && rm -rf /var/lib/apt/lists/*       
+            openssh-server 
 
 RUN wget -O - \
     "http://sourceforge.net/projects/xcat/files/ubuntu/apt.key/download" \
