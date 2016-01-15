@@ -1,4 +1,4 @@
-FROM ppc64le/ubuntu:latest
+FROM ppc64le/ubuntu:trusty
 
 MAINTAINER yangsbj@cn.ibm.com
 
@@ -21,10 +21,12 @@ RUN apt-get update && apt-get -y install \
             && apt-get clean \ 
             && rm -rf /var/lib/apt/lists/*             
 
-VOLUME ["/install/sources","/var/log/xcat/"]
+VOLUME ["/install/sources"]
 
-COPY startservice.sh /bin/startservice.sh
+COPY startservice.sh /bin/startservice.sh 
+COPY patch.bin.stop /sbin/stop
 
-RUN chmod +x /bin/startservice.sh
+RUN chmod +x /bin/startservice.sh; \
+    chmod +x /sbin/stop
 
 ENTRYPOINT ["/bin/startservice.sh"]
