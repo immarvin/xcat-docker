@@ -23,7 +23,6 @@ MYHOSTNAME=$(hostname)
 ([ -n "$MYIP" ] && [ -n "$MYHOSTNAME" ]) && echo "$MYHOSTNAME  $MYIP" >> /etc/hosts
 
 
-
 xcatconfig -d
 
 tabprune networks -a 
