@@ -23,8 +23,8 @@ RUN apt-get update && apt-get -y install \
 
 VOLUME ["/install/sources"]
 
-COPY startservice.sh /bin/startservice.sh ;\
-     patch.bin.stop /sbin/stop
+COPY startservice.sh /bin/startservice.sh 
+COPY patch.bin.stop /sbin/stop
 
 RUN chmod +x /bin/startservice.sh
 
