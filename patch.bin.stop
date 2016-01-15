@@ -1,0 +1,6 @@
+#!/bin/sh
+
+if [ "$1" = "tftpd-hpa" ]; then 
+   service $1 stop
+fi
+exit 0
