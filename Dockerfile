@@ -1,4 +1,4 @@
-FROM ppc64le/ubuntu:latest
+FROM ubuntu:latest
 
 MAINTAINER yangsbj@cn.ibm.com
 
