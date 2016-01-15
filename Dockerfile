@@ -26,6 +26,7 @@ VOLUME ["/install/sources"]
 COPY startservice.sh /bin/startservice.sh 
 COPY patch.bin.stop /sbin/stop
 
-RUN chmod +x /bin/startservice.sh
+RUN chmod +x /bin/startservice.sh; \
+    chmod +x /sbin/stop
 
 ENTRYPOINT ["/bin/startservice.sh"]
