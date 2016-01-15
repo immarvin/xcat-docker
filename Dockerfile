@@ -1,4 +1,4 @@
-FROM ubuntu:trusty
+FROM ubuntu:latest
 
 MAINTAINER yangsbj@cn.ibm.com
 
