@@ -21,7 +21,7 @@ RUN apt-get update && apt-get -y install \
             && apt-get clean \ 
             && rm -rf /var/lib/apt/lists/*             
 
-VOLUME ["/install/sources","/var/log/xcat/"]
+VOLUME ["/install/sources"]
 
 COPY startservice.sh /bin/startservice.sh
 
