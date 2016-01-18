@@ -6,6 +6,10 @@
 # Export the xCAT default Env variables
 . /etc/profile.d/xcat.sh
 
+mkdir -p /install/postscripts/
+
+mount -o bind /opt/xcat/postscripts/ /install/postscripts/
+
 service apache2 start
 
 service ssh start

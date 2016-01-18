@@ -19,9 +19,11 @@ RUN wget -O - \
 RUN apt-get update && apt-get -y install \
             xcat \
             && apt-get clean \ 
-            && rm -rf /var/lib/apt/lists/*             
+            && rm -rf /var/lib/apt/lists/* ; \
+    cp -rf  /install/postscripts  /opt/xcat/ \
+            && rm -rf /install/postscripts                       
 
-VOLUME ["/install/sources"]
+VOLUME ["/install"]
 
 COPY startservice.sh /bin/startservice.sh 
 COPY patch.bin.stop /sbin/stop
