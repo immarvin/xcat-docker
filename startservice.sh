@@ -17,17 +17,17 @@ function isBINDMOUNT {
 
 
 mkdir -p /install/postscripts/ && \
-     isBINDMOUNT("/opt/xcat/postscripts/","/install/postscripts/") && \
+     isBINDMOUNT /opt/xcat/postscripts/  /install/postscripts/ && \
      mount -o bind /opt/xcat/postscripts/ /install/postscripts/
 
 
 mkdir -p /install/prescripts/ && \
-     isBINDMOUNT("/opt/xcat/prescripts/","/install/prescripts/") && \
+     isBINDMOUNT /opt/xcat/prescripts/  /install/prescripts/ && \
      mount -o bind /opt/xcat/prescripts/ /install/prescripts/
 
 
 mkdir -p /install/winpostscripts/ && \
-     isBINDMOUNT("/opt/xcat/winpostscripts/","/install/winpostscripts/") && \
+     isBINDMOUNT opt/xcat/winpostscripts/  /install/winpostscripts/ && \
      mount -o bind /opt/xcat/winpostscripts/ /install/winpostscripts/
 
 service apache2 start
