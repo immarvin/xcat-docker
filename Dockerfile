@@ -19,11 +19,10 @@ RUN wget -O - \
 RUN apt-get update && apt-get -y install \
             xcat \
             && apt-get clean \ 
-            && rm -rf /var/lib/apt/lists/* 
-
-RUN cp -rf  /install/postscripts  /opt/xcat/ \
-            && rm -rf /install/postscripts 
-RUN    cp -rf  /install/prescripts  /opt/xcat/ \
+            && rm -rf /var/lib/apt/lists/* ; \
+            cp -rf  /install/postscripts  /opt/xcat/ \
+            && rm -rf /install/postscripts ; \
+            cp -rf  /install/prescripts  /opt/xcat/ \
             && rm -rf /install/prescripts 
 
 RUN    cp -rf  /install/winpostscripts  /opt/xcat/ \
