@@ -22,10 +22,11 @@ RUN apt-get update && apt-get -y install \
             && rm -rf /var/lib/apt/lists/* 
 
 RUN cp -rf  /install/postscripts  /opt/xcat/ \
-            && rm -rf /install/postscripts ;\
-    cp -rf  /install/prescripts  /opt/xcat/ \
-            && rm -rf /install/prescripts ;\
-    cp -rf  /install/winpostscripts  /opt/xcat/ \
+            && rm -rf /install/postscripts 
+RUN    cp -rf  /install/prescripts  /opt/xcat/ \
+            && rm -rf /install/prescripts 
+
+RUN    cp -rf  /install/winpostscripts  /opt/xcat/ \
             && rm -rf /install/winpostscripts 
                            
 
