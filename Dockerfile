@@ -20,12 +20,13 @@ RUN apt-get update && apt-get -y install \
             xcat \
             && apt-get clean \ 
             && rm -rf /var/lib/apt/lists/* 
-#    cp -rf  /install/postscripts  /opt/xcat/ \
-#            && rm -rf /install/postscripts ;\
-#    cp -rf  /install/prescripts  /opt/xcat/ \
-#            && rm -rf /install/prescripts ;\
-#    cp -rf  /install/winpostscripts  /opt/xcat/ \
-#            && rm -rf /install/winpostscripts 
+
+RUN cp -rf  /install/postscripts  /opt/xcat/ \
+            && rm -rf /install/postscripts ;\
+    cp -rf  /install/prescripts  /opt/xcat/ \
+            && rm -rf /install/prescripts ;\
+    cp -rf  /install/winpostscripts  /opt/xcat/ \
+            && rm -rf /install/winpostscripts 
                            
 
 VOLUME ["/install"]
