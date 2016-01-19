@@ -28,7 +28,7 @@ RUN apt-get update && apt-get -y install \
 #            && rm -rf /install/winpostscripts 
                            
 
-#VOLUME ["/install"]
+VOLUME ["/install"]
 
 COPY startservice.sh /bin/startservice.sh 
 COPY patch.bin.stop /sbin/stop
