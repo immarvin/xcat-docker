@@ -1,5 +1,4 @@
-FROM ppc64le/ubuntu:trusy
-
+FROM ppc64le/ubuntu:trusty
 MAINTAINER yangsbj@cn.ibm.com
 
 RUN apt-get update && apt-get install -y \
@@ -16,12 +15,18 @@ RUN wget -O - \
     "deb http://xcat.org/files/xcat/repos/apt/xcat-dep trusty main"  \
     > /etc/apt/sources.list.d/xcat-dep.list
 
+
 RUN apt-get update && apt-get -y install \
             xcat \
             && apt-get clean \ 
-            && rm -rf /var/lib/apt/lists/*             
+            && rm -rf /var/lib/apt/lists/*; \
+            cp -rf  /install/postscripts  /opt/xcat/ \
+            && rm -rf /install/postscripts ; \
+            cp -rf  /install/prescripts  /opt/xcat/ \
+            && rm -rf /install/prescripts 
 
-VOLUME ["/install/sources"]
+                           
+VOLUME ["/install"]
 
 COPY startservice.sh /bin/startservice.sh 
 COPY patch.bin.stop /sbin/stop
