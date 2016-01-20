@@ -16,19 +16,19 @@ RUN wget -O - \
     "deb http://xcat.org/files/xcat/repos/apt/xcat-dep trusty main"  \
     > /etc/apt/sources.list.d/xcat-dep.list
 
+RUN mkdir -p /install/ && mkdir -p /opt/xcat/ && mount -o bind /opt/xcat /install/ 
+
 RUN apt-get update && apt-get -y install \
             xcat \
             && apt-get clean \ 
-            && rm -rf /var/lib/apt/lists/* ; \
-            cp -rf  /install/postscripts  /opt/xcat/ \
-            && rm -rf /install/postscripts ; \
-            cp -rf  /install/prescripts  /opt/xcat/ \
-            && rm -rf /install/prescripts 
-
-#RUN    cp -rf  /install/winpostscripts  /opt/xcat/ \
-#            && rm -rf /install/winpostscripts 
+            && rm -rf /var/lib/apt/lists/*; \
+            umount -l /install 
+#            cp -rf  /install/postscripts  /opt/xcat/ \
+#            && rm -rf /install/postscripts ; \
+#            cp -rf  /install/prescripts  /opt/xcat/ \
+#            && rm -rf /install/prescripts 
+#
                            
-
 VOLUME ["/install"]
 
 COPY startservice.sh /bin/startservice.sh 
