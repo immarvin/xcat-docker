@@ -25,8 +25,8 @@ RUN apt-get update && apt-get -y install \
             cp -rf  /install/prescripts  /opt/xcat/ \
             && rm -rf /install/prescripts 
 
-RUN    cp -rf  /install/winpostscripts  /opt/xcat/ \
-            && rm -rf /install/winpostscripts 
+#RUN    cp -rf  /install/winpostscripts  /opt/xcat/ \
+#            && rm -rf /install/winpostscripts 
                            
 
 VOLUME ["/install"]
