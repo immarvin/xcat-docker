@@ -35,4 +35,4 @@ COPY patch.bin.stop /sbin/stop
 RUN chmod +x /bin/startservice.sh; \
     chmod +x /sbin/stop
 
-ENTRYPOINT ["/bin/startservice.sh"]
+#ENTRYPOINT ["/bin/startservice.sh"]
