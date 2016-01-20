@@ -10,7 +10,7 @@
 function isBINDMOUNT {
     local SRC=$1
     local DST=$2
-    SRC=$(echo "$SRC" | sed -r 's/^(\/?)([^\/]+)(\/?)$/\1\2/')
+    SRC=$(echo "$SRC" | sed -r 's/\/$//')
     findmnt -n $DST | awk -F' ' '{print $2}' | grep -E "\[.*$SRC\]" >/dev/null 2>&1 && return 0
     return 1
 }
