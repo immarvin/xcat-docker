@@ -21,9 +21,9 @@ mkdir -p /install/postscripts/ && \
      mount -o bind /opt/xcat/postscripts/ /install/postscripts/
 
 
-bash -x mkdir -p /install/prescripts/ && \
-     bash -x isBINDMOUNT /opt/xcat/prescripts/  /install/prescripts/ || \
-     bash -x mount -o bind /opt/xcat/prescripts/ /install/prescripts/
+mkdir -p /install/prescripts/ && \
+     isBINDMOUNT /opt/xcat/prescripts/  /install/prescripts/ || \
+     mount -o bind /opt/xcat/prescripts/ /install/prescripts/
 
 
 #mkdir -p /install/winpostscripts/ && \
