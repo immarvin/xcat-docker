@@ -6,6 +6,7 @@
 # Export the xCAT default Env variables
 . /etc/profile.d/xcat.sh
 
+
 #verify whether $DST is bind mount from $SRC
 function isBINDMOUNT {
     local SRC=$1
