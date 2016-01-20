@@ -16,7 +16,7 @@ RUN wget -O - \
     "deb http://xcat.org/files/xcat/repos/apt/xcat-dep trusty main"  \
     > /etc/apt/sources.list.d/xcat-dep.list
 
-RUN mkdir -p /install/ && mkdir -p /opt/xcat/ && mount -o bind /opt/xcat /install/ 
+RUN mkdir -p /install/ && mkdir -p /opt/xcat/ && mount -o bind,rw /opt/xcat /install/ 
 
 RUN apt-get update && apt-get -y install \
             xcat \
