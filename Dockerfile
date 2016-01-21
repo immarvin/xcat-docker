@@ -31,6 +31,7 @@ VOLUME ["/install"]
 
 COPY startservice.sh /bin/startservice.sh 
 COPY patch.bin.stop /sbin/stop
+COPY motd /etc/motd
 
 RUN chmod +x /bin/startservice.sh; \
     chmod +x /sbin/stop

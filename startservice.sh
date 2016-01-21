@@ -54,4 +54,5 @@ tabprune networks -a
 
 makenetworks
 
+cat /etc/motd
 bash
