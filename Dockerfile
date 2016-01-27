@@ -10,7 +10,7 @@ RUN wget -O - \
     "http://sourceforge.net/projects/xcat/files/ubuntu/apt.key/download" \
     | apt-key add - ; \
     echo  \
-    "deb http://xcat.org/files/xcat/repos/apt/2.11/xcat-core trusty main" \    
+    "deb http://xcat.org/files/xcat/repos/apt/devel/core-snap trusty main" \    
      > /etc/apt/sources.list.d/xcat-core.list ; \
     echo \
     "deb http://xcat.org/files/xcat/repos/apt/xcat-dep trusty main"  \
