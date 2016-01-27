@@ -24,7 +24,8 @@ RUN apt-get update && apt-get -y install \
             cp -rf  /install/postscripts  /opt/xcat/ \
             && rm -rf /install/postscripts ; \
             cp -rf  /install/prescripts  /opt/xcat/ \
-            && rm -rf /install/prescripts 
+            && rm -rf /install/prescripts; \
+            service xcatd stop 
 
                            
 VOLUME ["/install"]
