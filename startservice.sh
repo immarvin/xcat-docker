@@ -67,7 +67,7 @@ MYHOSTNAME=$(hostname)
 
 xcatconfig -d
 
-chdef -t site -o clustersite domain="$clusterdomain"
+#chdef -t site -o clustersite domain="$clusterdomain"
 
 tabprune networks -a 
 
