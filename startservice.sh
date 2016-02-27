@@ -4,7 +4,25 @@
 # to start xcatd and depended services
 
 # Export the xCAT default Env variables
+
 . /etc/profile.d/xcat.sh
+
+clusterdomain=
+clusterdomain_def="clusters.com"
+while [ "$#" -gt "0" ] ; do
+    case "$1" in
+        "--clusterdomain")
+            shift;
+            [ "${1:0:1}" != "-" ] && echo "$1 llllzzzz"
+            [ -n "$1" ] && [ "${1:0:1}" != "-" ] && clusterdomain="$1" && shift  
+            ;;
+        *)
+            [ -n "$1" ] && [ "${1:0:1}" != "-" ] && break
+            ;;
+    esac
+done
+
+[ -z "$clusterdomain" ] && ( echo "--clusterdomain not specified, default to \"$clusterdomain_def\""; clusterdomain="$clusterdomain_def" )
 
 
 #verify whether $DST is bind mount from $SRC
@@ -48,6 +66,8 @@ MYHOSTNAME=$(hostname)
 
 
 xcatconfig -d
+
+chdef -t site -o clustersite domain="$clusterdomain"
 
 tabprune networks -a 
 
