@@ -35,4 +35,4 @@ RUN apt-get update && apt-get install -y \
             echo "root:cluster" | chpasswd 
     
 
-#ENTRYPOINT ["/bin/startservice.sh"]
+ENTRYPOINT ["/bin/startservice.sh"]
