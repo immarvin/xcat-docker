@@ -59,10 +59,10 @@ service rsyslog start
 service xcatd start
 
 
-MYIP=$(ip -o -4 addr show dev eth0 2>/dev/null |grep eth0|awk -F' ' '{print $4}'|sed -e 's/\/.*//')
-MYHOSTNAME=$(hostname)
-
-([ -n "$MYIP" ] && [ -n "$MYHOSTNAME" ]) && echo "$MYHOSTNAME  $MYIP" >> /etc/hosts
+# MYIP=$(ip -o -4 addr show dev eth0 2>/dev/null |grep eth0|awk -F' ' '{print $4}'|sed -e 's/\/.*//')
+# MYHOSTNAME=$(hostname)
+# 
+# ([ -n "$MYIP" ] && [ -n "$MYHOSTNAME" ]) && echo "$MYHOSTNAME  $MYIP" >> /etc/hosts
 
 
 xcatconfig -d
