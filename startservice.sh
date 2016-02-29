@@ -7,22 +7,22 @@
 
 . /etc/profile.d/xcat.sh
 
-#clusterdomain=
-#clusterdomain_def="clusters.com"
-#while [ "$#" -gt "0" ] ; do
-#    case "$1" in
-#        "--clusterdomain")
-#            shift;
-#            [ "${1:0:1}" != "-" ] && echo "$1 llllzzzz"
-#            [ -n "$1" ] && [ "${1:0:1}" != "-" ] && clusterdomain="$1" && shift  
-#            ;;
-#        *)
-#            [ -n "$1" ] && [ "${1:0:1}" != "-" ] && break
-#            ;;
-#    esac
-#done
-#
-#[ -z "$clusterdomain" ] && ( echo "--clusterdomain not specified, default to \"$clusterdomain_def\""; clusterdomain="$clusterdomain_def" )
+clusterdomain=
+clusterdomain_def="clusters.com"
+while [ "$#" -gt "0" ] ; do
+    case "$1" in
+        "--clusterdomain")
+            shift;
+            [ "${1:0:1}" != "-" ] && echo "$1 llllzzzz"
+            [ -n "$1" ] && [ "${1:0:1}" != "-" ] && clusterdomain="$1" && shift  
+            ;;
+        *)
+            [ -n "$1" ] && [ "${1:0:1}" != "-" ] && break
+            ;;
+    esac
+done
+
+[ -z "$clusterdomain" ] && ( echo "--clusterdomain not specified, default to \"$clusterdomain_def\""; clusterdomain="$clusterdomain_def" )
 
 
 #verify whether $DST is bind mount from $SRC
@@ -59,10 +59,10 @@ service rsyslog start
 service xcatd start
 
 
-# MYIP=$(ip -o -4 addr show dev eth0 2>/dev/null |grep eth0|awk -F' ' '{print $4}'|sed -e 's/\/.*//')
-# MYHOSTNAME=$(hostname)
-# 
-# ([ -n "$MYIP" ] && [ -n "$MYHOSTNAME" ]) && echo "$MYHOSTNAME  $MYIP" >> /etc/hosts
+MYIP=$(ip -o -4 addr show dev eth0 2>/dev/null |grep eth0|awk -F' ' '{print $4}'|sed -e 's/\/.*//')
+MYHOSTNAME=$(hostname)
+ 
+([ -n "$MYIP" ] && [ -n "$MYHOSTNAME" ]) && sed -i -e "/\<$MYHOSTNAME\>/d" /etc/hosts && echo "$MYHOSTNAME.$clusterdomain $MYHOSTNAME $MYIP" >> /etc/hosts
 
 
 xcatconfig -d
