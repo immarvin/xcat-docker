@@ -73,5 +73,10 @@ tabprune networks -a
 
 makenetworks
 
+maxloopdev=$(losetup -a|awk -F: '{print $1}'|sort -f -r|head -n1)
+maxloopidx=$[${maxloopdev/#\/dev\/loop}]
+mknod /dev/loop$[maxloopidx+1] -m0660 b 7 $[maxloopidx+1]
+
+
 cat /etc/motd
 bash
