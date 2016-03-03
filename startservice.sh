@@ -44,19 +44,26 @@ mkdir -p /install/prescripts/ && \
      isBINDMOUNT /opt/xcat/prescripts/  /install/prescripts/ || \
      mount -o bind /opt/xcat/prescripts/ /install/prescripts/
 
+
+mkdir -p /install/logs/ && \
+     isBINDMOUNT /install/logs/ /var/log/xcat/ || \
+     mount -o bind /install/logs/ /var/log/xcat/ && \
+     chown -R syslog:adm /var/log/xcat/ 
+     
+
 #mkdir -p /install/winpostscripts/ && \
 #     isBINDMOUNT opt/xcat/winpostscripts/  /install/winpostscripts/ && \
 #     mount -o bind /opt/xcat/winpostscripts/ /install/winpostscripts/
 
-service apache2 start
+service apache2 restart
 
-service ssh start
+service ssh restart
 
-service isc-dhcp-server start
+service isc-dhcp-server restart
 
-service rsyslog start
+service rsyslog restart
 
-service xcatd start
+service xcatd restart
 
 
 #MYIP=$(ip -o -4 addr show dev eth0 2>/dev/null |grep eth0|awk -F' ' '{print $4}'|sed -e 's/\/.*//')
