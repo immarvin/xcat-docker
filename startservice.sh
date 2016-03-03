@@ -107,3 +107,4 @@ if [ -d "/install/.dbbackup" ]; then
 fi
 
 cat /etc/motd
+bash
