@@ -45,9 +45,9 @@ mkdir -p /install/prescripts/ && \
      mount -o bind /opt/xcat/prescripts/ /install/prescripts/
 
 
-mkdir -p /install/logs/ && \
-     isBINDMOUNT /install/logs/ /var/log/xcat/ || \
-     mount -o bind /install/logs/ /var/log/xcat/ && \
+mkdir -p /install/.logs/ && \
+     isBINDMOUNT /install/.logs/ /var/log/xcat/ || \
+     mount -o bind /install/.logs/ /var/log/xcat/ && \
      chown -R syslog:adm /var/log/xcat/ 
      
 
@@ -55,14 +55,19 @@ mkdir -p /install/logs/ && \
 #     isBINDMOUNT opt/xcat/winpostscripts/  /install/winpostscripts/ && \
 #     mount -o bind /opt/xcat/winpostscripts/ /install/winpostscripts/
 
+echo "restarting apache2 service..."
 service apache2 restart
 
+echo "restarting ssh service..."
 service ssh restart
 
+echo "restarting isc-dhcp-server service..."
 service isc-dhcp-server restart
 
+echo "restarting rsyslog service..."
 service rsyslog restart
 
+echo "restarting xcatd service..."
 service xcatd restart
 
 
@@ -71,25 +76,32 @@ service xcatd restart
 # 
 #([ -n "$MYIP" ] && [ -n "$MYHOSTNAME" ]) && sed -i -e "/\<$MYHOSTNAME\>/d" /etc/hosts && echo "$MYHOSTNAME.$clusterdomain $MYHOSTNAME $MYIP" >> /etc/hosts
 
-
+echo "initializing xCAT Tables..."
 xcatconfig -d
 
 #chdef -t site -o clustersite domain="$clusterdomain"
-
+echo "initializing networks table..."
 tabprune networks -a 
-
 makenetworks
 
 #/dev/loop0 and /dev/loop1 will be occupiered by docker by default
 #create a loop device if there is no free loop device inside contanier
 losetup -f >/dev/null 2>&1 || (
-  maxloopdev=$(losetup -a|awk -F: '{print $1}'|sort -f -r|head -n1)
-  maxloopidx=$[${maxloopdev/#\/dev\/loop}]
-  mknod /dev/loop$[maxloopidx+1] -m0660 b 7 $[maxloopidx+1]
+  maxloopdev=$(losetup -a|awk -F: '{print $1}'|sort -f -r|head -n1);
+  maxloopidx=$[${maxloopdev/#\/dev\/loop}];
+  mknod /dev/loop$[maxloopidx+1] -m0660 b 7 $[maxloopidx+1] && echo "no free loop device inside container,created a new loop device /dev/loop$[maxloopidx+1]..."
 )
 
 #restore the backuped db on container start to resume the service state
-[ -d "/install/dbbackup" ] && restorexCATdb -p /install/dbbackup/
+option_yes="n"
+[ -d "/install/.dbbackup" ] &&  read -p "A xCAT DB backup directory \".dbbackup\" detected under \/install,do you want to restore the xCAT Tables from it?(\"y\" for yes,\"n\" for no)" option_yes 
+if [ "option_yes" = "y"  ]; then
+    echo "restoring xCAT tables from \/install\/.dbbackup\/..." 
+    restorexCATdb -p /install/.dbbackup/ 
+    echo "finished xCAT Tables restore!"
+else
+    echo "XCAT Tables will not be restored. If you need, please restore them with \"restorexCATdb -p /install/.dbbackup/\" later"
+fi
 
 cat /etc/motd
 bash
