@@ -73,11 +73,16 @@ tabprune networks -a
 
 makenetworks
 
+#/dev/loop0 and /dev/loop1 will be occupiered by docker by default
+#create a loop device if there is no free loop device inside contanier
 losetup -f >/dev/null 2>&1 || (
   maxloopdev=$(losetup -a|awk -F: '{print $1}'|sort -f -r|head -n1)
   maxloopidx=$[${maxloopdev/#\/dev\/loop}]
   mknod /dev/loop$[maxloopidx+1] -m0660 b 7 $[maxloopidx+1]
 )
+
+#restore the backuped db on container start to resume the service state
+[ -d "/install/dbbackup" ] && restorexCATdb -p /install/dbbackup/
 
 cat /etc/motd
 bash
