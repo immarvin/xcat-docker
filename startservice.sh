@@ -94,7 +94,7 @@ losetup -f >/dev/null 2>&1 || (
 
 #restore the backuped db on container start to resume the service state
 option_yes="n"
-[ -d "/install/.dbbackup" ] &&  read -p "A xCAT DB backup directory \".dbbackup\" detected under \/install,do you want to restore the xCAT Tables from it?(\"y\" for yes,\"n\" for no)" option_yes 
+[ -d "/install/.dbbackup" ] &&  read -t 10 -p "A xCAT DB backup directory \".dbbackup\" detected under \/install,do you want to restore the xCAT Tables from it?(\"y\" for yes,\"n\" for no)" option_yes 
 if [ "option_yes" = "y"  ]; then
     echo "restoring xCAT tables from \/install\/.dbbackup\/..." 
     restorexCATdb -p /install/.dbbackup/ 
