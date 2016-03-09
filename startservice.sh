@@ -76,13 +76,19 @@ service xcatd restart
 # 
 #([ -n "$MYIP" ] && [ -n "$MYHOSTNAME" ]) && sed -i -e "/\<$MYHOSTNAME\>/d" /etc/hosts && echo "$MYHOSTNAME.$clusterdomain $MYHOSTNAME $MYIP" >> /etc/hosts
 
-echo "initializing xCAT Tables..."
-xcatconfig -d
+if [ -e "/etc/NEEDINIT"  ]; then
+    echo "initializing xCAT Tables..."
+    xcatconfig -d
 
-#chdef -t site -o clustersite domain="$clusterdomain"
-echo "initializing networks table..."
-tabprune networks -a 
-makenetworks
+    #chdef -t site -o clustersite domain="$clusterdomain"
+    echo "initializing networks table..."
+    tabprune networks -a 
+    makenetworks
+    
+    rm -f /etc/NEEDINIT
+fi
+
+
 
 #/dev/loop0 and /dev/loop1 will be occupiered by docker by default
 #create a loop device if there is no free loop device inside contanier
