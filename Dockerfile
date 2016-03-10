@@ -32,7 +32,8 @@ RUN apt-get update && apt-get install -y \
             chmod +x /sbin/stop; \
             [ -e "/etc/ssh/sshd_config" ] \
             && sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config ;\
-            echo "root:cluster" | chpasswd 
+            echo "root:cluster" | chpasswd ; \
+            touch /etc/NEEDINIT 
     
 
 ENTRYPOINT ["/bin/startservice.sh"]
