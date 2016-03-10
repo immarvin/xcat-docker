@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  xcatmn:
+    image: xcat/xcat-ubuntu-x86_64 
+    container_name: xcatmn
+    hostname: xcatmn
+    privileged: true
+    stdin_open: true
+    tty: true
+    extra_hosts: 
+      - "xcatmn.clusers.com xcatmn:10.5.107.101"
+    networks:
+      - default
+    volumes:
+      - /docker/xcatdata/:/install
+  
+
+networks:
+  default:
+    external:
+      name: subnet1
