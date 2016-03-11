@@ -6,15 +6,14 @@ services:
     container_name: xcatmn
     hostname: xcatmn
     privileged: true
-    stdin_open: true
-    tty: true
     extra_hosts: 
       - "xcatmn.clusers.com xcatmn:10.5.107.101"
     networks:
-      - default
+      default: 
+        ipv4_address : 10.5.107.101
+       
     volumes:
       - /docker/xcatdata/:/install
-  
 
 networks:
   default:
