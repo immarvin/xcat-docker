@@ -106,8 +106,7 @@ fi
 HOSTIPS=$(ip -o -4 addr show up|grep -v "\<lo\>"|xargs -I{} expr {} : ".*inet \([0-9.]*\).*")
 echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 echo "welcome to Dockerized xCAT, please login with"
-[ -n "$HOSTIPS"  ] && for i in $HOSTIPS;do echo "ssh root@$i";done && echo "The initial password is \"cluster\""
+[ -n "$HOSTIPS"  ] && for i in $HOSTIPS;do echo "   ssh root@$i   ";done && echo "The initial password is \"cluster\""
 echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 
 cat /etc/motd
-xcatd -f
