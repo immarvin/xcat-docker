@@ -100,16 +100,16 @@ losetup -f >/dev/null 2>&1 || (
 
 #restore the backuped db on container start to resume the service state
 
-if [ -d "/install/.dbbackup" ]; then   
-    read -t 60 -p "A xCAT DB backup directory \".dbbackup\" detected under \"/install\",do you want to restore the xCAT Tables from it?(\"y\" for yes,\"n\" for no)" option_yes
-    [ "$?" -gt "128" ] && echo "time out,\"n\" selected by default" && option_yes="n" 
-    if [ "$option_yes" = "y"  ]; then
-        echo "restoring xCAT tables from /install/.dbbackup/..." 
-        restorexCATdb -p /install/.dbbackup/ 
+if [ -d "/.dbbackup" ]; then   
+#    read -t 60 -p "A xCAT DB backup directory \".dbbackup\" detected under \"/install\",do you want to restore the xCAT Tables from it?(\"y\" for yes,\"n\" for no)" option_yes
+#    [ "$?" -gt "128" ] && echo "time out,\"n\" selected by default" && option_yes="n" 
+#    if [ "$option_yes" = "y"  ]; then
+        echo "restoring xCAT tables from /.dbbackup/..." 
+        restorexCATdb -p /.dbbackup/ 
         echo "finished xCAT Tables restore!"
-    else
-        echo "XCAT Tables will not be restored. If you need, please restore them with \"restorexCATdb -p /install/.dbbackup/\" later"
-    fi
+#    else
+#        echo "XCAT Tables will not be restored. If you need, please restore them with \"restorexCATdb -p /install/.dbbackup/\" later"
+#    fi
 fi
 
 cat /etc/motd
