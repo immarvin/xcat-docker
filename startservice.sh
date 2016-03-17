@@ -50,6 +50,13 @@ mkdir -p /install/.logs/ && \
      mount -o bind /install/.logs/ /var/log/xcat/ && \
      chown -R syslog:adm /var/log/xcat/ 
      
+#/dev/loop0 and /dev/loop1 will be occupiered by docker by default
+#create a loop device if there is no free loop device inside contanier
+losetup -f >/dev/null 2>&1 || (
+  maxloopdev=$(losetup -a|awk -F: '{print $1}'|sort -f -r|head -n1);
+  maxloopidx=$[${maxloopdev/#\/dev\/loop}];
+  mknod /dev/loop$[maxloopidx+1] -m0660 b 7 $[maxloopidx+1] && echo "no free loop device inside container,created a new loop device /dev/loop$[maxloopidx+1]..."
+)
 
 #mkdir -p /install/winpostscripts/ && \
 #     isBINDMOUNT opt/xcat/winpostscripts/  /install/winpostscripts/ && \
@@ -89,28 +96,16 @@ if [ -e "/etc/NEEDINIT"  ]; then
 fi
 
 
-
-#/dev/loop0 and /dev/loop1 will be occupiered by docker by default
-#create a loop device if there is no free loop device inside contanier
-losetup -f >/dev/null 2>&1 || (
-  maxloopdev=$(losetup -a|awk -F: '{print $1}'|sort -f -r|head -n1);
-  maxloopidx=$[${maxloopdev/#\/dev\/loop}];
-  mknod /dev/loop$[maxloopidx+1] -m0660 b 7 $[maxloopidx+1] && echo "no free loop device inside container,created a new loop device /dev/loop$[maxloopidx+1]..."
-)
-
 #restore the backuped db on container start to resume the service state
-
 if [ -d "/.dbbackup" ]; then   
-#    read -t 60 -p "A xCAT DB backup directory \".dbbackup\" detected under \"/install\",do you want to restore the xCAT Tables from it?(\"y\" for yes,\"n\" for no)" option_yes
-#    [ "$?" -gt "128" ] && echo "time out,\"n\" selected by default" && option_yes="n" 
-#    if [ "$option_yes" = "y"  ]; then
-        echo "restoring xCAT tables from /.dbbackup/..." 
+        echo "xCAT DB backup directory \".dbbackup\" detected, restoring xCAT tables from /.dbbackup/..." 
         restorexCATdb -p /.dbbackup/ 
         echo "finished xCAT Tables restore!"
-#    else
-#        echo "XCAT Tables will not be restored. If you need, please restore them with \"restorexCATdb -p /install/.dbbackup/\" later"
-#    fi
 fi
 
+HOSTIPS=$(ip -o -4 addr show up|grep -v "\<lo\>"|xargs -I{} expr {} : ".*inet \([0-9.]*\).*")
+echo "welcome to Dockerized xCAT, please login with"
+[ -n "$HOSTIPS"  ] && for i in $HOSTIPS;do echo "ssh root@$i";done && echo "The initial password is \"cluster\""
+
 cat /etc/motd
-bash
+xcatd -f
