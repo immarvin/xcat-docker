@@ -46,8 +46,8 @@ mkdir -p /install/prescripts/ && \
 
 
 mkdir -p /install/.logs/ && \
-     isBINDMOUNT /install/.logs/ /var/log/xcat/ || \
-     mount -o bind /install/.logs/ /var/log/xcat/ && \
+     isBINDMOUNT /.logs/ /var/log/xcat/ || \
+     mount -o bind /.logs/ /var/log/xcat/ && \
      chown -R syslog:adm /var/log/xcat/ 
      
 #/dev/loop0 and /dev/loop1 will be occupiered by docker by default
@@ -98,7 +98,7 @@ fi
 
 #restore the backuped db on container start to resume the service state
 if [ -d "/.dbbackup" ]; then   
-        echo "xCAT DB backup directory \".dbbackup\" detected, restoring xCAT tables from /.dbbackup/..." 
+        echo "xCAT DB backup directory \"/.dbbackup\" detected, restoring xCAT tables from /.dbbackup/..." 
         restorexCATdb -p /.dbbackup/ 
         echo "finished xCAT Tables restore!"
 fi
@@ -110,3 +110,4 @@ echo "welcome to Dockerized xCAT, please login with"
 echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 
 cat /etc/motd
+/bin/bash
