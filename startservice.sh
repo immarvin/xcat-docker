@@ -45,7 +45,7 @@ mkdir -p /install/prescripts/ && \
      mount -o bind /opt/xcat/prescripts/ /install/prescripts/
 
 
-mkdir -p /install/.logs/ && \
+mkdir -p /.logs/ && \
      isBINDMOUNT /.logs/ /var/log/xcat/ || \
      mount -o bind /.logs/ /var/log/xcat/ && \
      chown -R syslog:adm /var/log/xcat/ 
