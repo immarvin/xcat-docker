@@ -111,5 +111,5 @@ echo "welcome to Dockerized xCAT, please login with"
 echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 
 
-read -p "press any key to continue..." 
+#read -p "press any key to continue..." 
 /bin/bash
