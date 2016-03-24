@@ -2,7 +2,7 @@ FROM ubuntu:trusty
 
 MAINTAINER yangsbj@cn.ibm.com
 
-ENV xcatcoreurl "http://xcat.org/files/xcat/repos/apt/devel/core-snap trusty main"
+ENV xcatcoreurl "http://xcat.org/files/xcat/repos/apt/2.11/xcat-core/ trusty main"
 ENV xcatdepurl  "http://xcat.org/files/xcat/repos/apt/xcat-dep trusty main"
 
 VOLUME ["/install"]
