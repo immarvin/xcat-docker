@@ -44,11 +44,7 @@ mkdir -p /install/prescripts/ && \
      isBINDMOUNT /opt/xcat/prescripts/  /install/prescripts/ || \
      mount -o bind /opt/xcat/prescripts/ /install/prescripts/
 
-
-mkdir -p /.logs/ && \
-     isBINDMOUNT /.logs/ /var/log/xcat/ || \
-     mount -o bind /.logs/ /var/log/xcat/ && \
-     chown -R syslog:adm /var/log/xcat/ 
+chown -R syslog:adm /var/log/xcat/ 
      
 #/dev/loop0 and /dev/loop1 will be occupiered by docker by default
 #create a loop device if there is no free loop device inside contanier
