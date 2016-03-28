@@ -2,20 +2,86 @@ version: '2'
 
 services:
   xcatmn:
-    image: xcat/xcat-ubuntu-x86_64 
+    #the xCAT docker image name and tag, with format [xCAT docker image name]:[tag]
+    image: xcat/xcat-ubuntu-x86_64:dev 
+    #container name, seen by Docker host
     container_name: xcatmn
+    #the hostname of the container, seen by container itself 
     hostname: xcatmn
+    #previleged mode
     privileged: true
+    #tty enable
+    tty: true
+    #stdin enable
+    stdin_open: true
+    #the /etc/hosts entry of container itself to be added into /etc/hosts inside container
+    #the format is "[FQDN] [host name]: [IP address]"
+    #FQDN is madatory. the domain name of FQDN will be set in site.domain
     extra_hosts: 
-      - "xcatmn.clusers.com xcatmn:10.5.107.101"
+      - "xcatmn.clusters.com xcatmn:10.5.107.101"
+    #the network objects the container will be connected to
     networks:
-      default: 
+      #the hardware management network, connecting to the hardware control point of the cluster
+      hwmgtnet:
+        #the IP address of container in hardware management network
+        ipv4_address : 192.168.0.101
+      #the provision network, connecting to the compute nodes in the cluster
+      provnet:
+        #the IP address of container in provision network
         ipv4_address : 10.5.107.101
        
     volumes:
+      #the "/install" volume is used to keep user data in xCAT,
+      #such as osimage resources
       - /docker/xcatdata/:/install
+      #the "/.dbbackup" volume is used to backup and restore xCAT DB tables
+      #Dockerized xCAT will restore xCAT DB tables if specified
+      #"dumpxCATdb -p /.dbbackup" should be run manually to save xCAT DB inside container
+      - /docker/xcatdata/.dbbackup:/.dbbackup
+      #the "/var/log/xcat/" volume is used to keep xCAT logs
+      - /docker/xcatdata/.logs:/var/log/xcat/
 
 networks:
-  default:
-    external:
-      name: subnet1
+   
+  #externalnet:
+  #  external:
+  #    name: provnet
+  
+  #provision network, attached to the network interface on Docker host 
+  #facing the nodes to provision
+  provnet:
+    driver: "bridge"
+    driver_opts: 
+      com.docker.network.bridge.name: "provbr" 
+      #com.docker.network.bridge.host_binding_ipv4: "10.5.107.1"
+    ipam: 
+      config: 
+          #the subnet of the bridge network in CIDR format
+          #should be exactly the same as the network configuration of network interface 
+          #attached to the bridge
+        - subnet: 10.5.107.0/8
+          #the IP address of the bridge, should be exactly the same as the IP address of 
+          #network interface attached to the bridge
+          gateway: 10.5.107.1
+          #aux_addresses:
+          #   DefaultGatewayIPv4: 10.0.0.103
+    
+  #hardware management network, attached to the network interface on
+  #Docker host facing the bmc network
+  hwmgtnet:
+    driver: "bridge"
+    driver_opts:
+      #the network bridge name created on the Docker host 
+      com.docker.network.bridge.name: "hwmgtbr" 
+      #com.docker.network.bridge.host_binding_ipv4: "192.168.0.1"
+    ipam: 
+      config: 
+          #the subnet of the bridge network in CIDR format
+          #should be exactly the same as the network configuration of network interface 
+          #attached to the bridge
+        - subnet: 192.168.0.0/8
+          #the IP address of the bridge, should be exactly the same as the IP address of 
+          #network interface attached to the bridge
+          gateway: 192.168.0.100
+          #aux_addresses:
+          #   DefaultGatewayIPv4: 10.5.107.1
