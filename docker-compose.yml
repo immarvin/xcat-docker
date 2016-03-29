@@ -21,13 +21,13 @@ services:
       - "xcatmn.clusters.com xcatmn:10.5.107.101"
     #the network objects the container will be connected to
     networks:
-      #the hardware management network, connecting to the hardware control point of the cluster
-      hwmgtnet:
-        #the IP address of container in hardware management network
+      #the service network, connecting to the hardware control point of the cluster
+      svcnet:
+        #the IP address of container in service network
         ipv4_address : 192.168.0.101
-      #the provision network, connecting to the compute nodes in the cluster
-      provnet:
-        #the IP address of container in provision network
+      #the management network, connecting to the compute nodes in the cluster
+      mgtnet:
+        #the IP address of container in management network
         ipv4_address : 10.5.107.101
        
     volumes:
@@ -45,14 +45,14 @@ networks:
    
   #externalnet:
   #  external:
-  #    name: provnet
+  #    name: mgtnet
   
-  #provision network, attached to the network interface on Docker host 
+  #management network, attached to the network interface on Docker host 
   #facing the nodes to provision
-  provnet:
+  mgtnet:
     driver: "bridge"
     driver_opts: 
-      com.docker.network.bridge.name: "provbr" 
+      com.docker.network.bridge.name: "mgtbr" 
       #com.docker.network.bridge.host_binding_ipv4: "10.5.107.1"
     ipam: 
       config: 
@@ -66,13 +66,13 @@ networks:
           #aux_addresses:
           #   DefaultGatewayIPv4: 10.0.0.103
     
-  #hardware management network, attached to the network interface on
+  #service network, attached to the network interface on
   #Docker host facing the bmc network
-  hwmgtnet:
+  svcnet:
     driver: "bridge"
     driver_opts:
       #the network bridge name created on the Docker host 
-      com.docker.network.bridge.name: "hwmgtbr" 
+      com.docker.network.bridge.name: "svcbr" 
       #com.docker.network.bridge.host_binding_ipv4: "192.168.0.1"
     ipam: 
       config: 
