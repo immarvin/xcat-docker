@@ -33,6 +33,8 @@ RUN apt-get update && apt-get install -y \
             service xcatd stop  ; \
             chmod +x /bin/startservice.sh; \
             chmod +x /sbin/stop; \
+            sudo a2enmod ssl; \
+            ln -s ../sites-available/default-ssl.conf  /etc/apache2/sites-enabled/ssl.conf; \
             [ -e "/etc/ssh/sshd_config" ] \
             && sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config ;\
             echo "root:cluster" | chpasswd ; \
