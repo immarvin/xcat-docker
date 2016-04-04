@@ -1,0 +1,13 @@
+[Unit]
+Description=OMC daemon
+
+[Service]
+EnvironmentFile=/etc/sysconfig/omc
+ExecStartPre=/usr/sbin/configxcatws.sh
+ExecStart=/usr/bin/keystone-all  --config-file=/etc/keystone/keystone.conf
+KillMode=process
+Restart=on-failure
+RestartSec=42s
+
+[Install]
+WantedBy=multi-user.target

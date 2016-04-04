@@ -1,0 +1,11 @@
+FROM omc_img:latest
+
+VOLUME ["/sys/fs/cgroup","/run"]
+
+COPY omc.env /etc/sysconfig/omc
+COPY omc2.service /etc/systemd/system/omc2.service
+COPY local_settings.py /usr/lib/python2.7/site-packages/openstack_dashboard/local/local_settings.py
+COPY configxcatws.sh /usr/sbin/configxcatws.sh
+ 
+RUN systemctl enable omc2 
+
