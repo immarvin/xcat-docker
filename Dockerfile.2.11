@@ -31,6 +31,8 @@ RUN apt-get update && apt-get install -y \
             cp -rf  /install/prescripts  /opt/xcat/ \
             && rm -rf /install/prescripts; \
             service xcatd stop  ; \
+            sudo a2enmod ssl; \
+            ln -s ../sites-available/default-ssl.conf  /etc/apache2/sites-enabled/ssl.conf; \
             chmod +x /bin/startservice.sh; \
             chmod +x /sbin/stop; \
             [ -e "/etc/ssh/sshd_config" ] \
