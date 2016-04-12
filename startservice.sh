@@ -99,6 +99,8 @@ if [ -d "/.dbbackup" ]; then
         echo "finished xCAT Tables restore!"
 fi
 
+. /etc/profile.d/xcat.sh
+
 cat /etc/motd
 HOSTIPS=$(ip -o -4 addr show up|grep -v "\<lo\>"|xargs -I{} expr {} : ".*inet \([0-9.]*\).*")
 echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
