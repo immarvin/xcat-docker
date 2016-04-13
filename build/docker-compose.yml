@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+  xcatbuild:
+    image: centos:7
+    container_name: xcatbuilder
+    hostname: xcatbuilder
+    privileged: true
+    tty: true
+    stdin_open: true
+#    networks:
+#      externalnet:
+#        ipv4_address: 10.5.107.103
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /run 
+
+#networks:
+#   
+#  externalnet:
+#    external:
+#      name: xcatdocker_mgtnet
+  
