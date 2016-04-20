@@ -1,6 +1,7 @@
 FROM centos:7
 MAINTAINER "immarvin" <yangsbj@cn.ibm.com>
 ENV container docker
+COPY rpmbuildwrapper.sh /usr/sbin/buildwrapper.sh
 RUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == systemd-tmpfiles-setup.service ] || rm -f $i; done); \
 rm -f /lib/systemd/system/multi-user.target.wants/*;\
 rm -f /etc/systemd/system/*.wants/*;\
@@ -24,6 +25,6 @@ cd /git/xcat-core/; \
 ./buildcore.sh UP=0 BUILDALL=1
 
 
-VOLUME [ "/sys/fs/cgroup","/run"]
+VOLUME [ "/sys/fs/cgroup","/run","/gsa","/root/xcatbuild","/xcat-dep"]
 #CMD ["/usr/sbin/init"]
-ENTRYPOINT ["/git/xcat-core/buildcore.sh"]
+ENTRYPOINT ["/usr/sbin/buildwrapper.sh"]
