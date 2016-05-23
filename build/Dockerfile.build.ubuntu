@@ -1,0 +1,27 @@
+FROM ubuntu:trusty
+MAINTAINER "immarvin" <yangsbj@cn.ibm.com>
+RUN apt-get update; \
+    apt-get install -y git reprepro devscripts debhelper libsoap-lite-perl libdbi-perl quilt openssh-server; \
+   
+#yum clean metadata; \
+#yum install -y rpm-sign expect  chkconfig openssh-server git net-tools rpm-build  createrepo perl-DBI perl-Sys-Syslog perl-Data-Dumper; \
+[ -e "/etc/ssh/sshd_config" ] \
+            && sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config ;\
+echo "root:cluster" | chpasswd; \
+update-rc.d ssh defaults; \
+mkdir -p /git; \
+cd /git/; \
+git config --global user.name immarvin; \
+git config --global user.email yangsbj@cn.ibm.com; \
+git clone https://github.com/xcat2/xcat-core.git; \ 
+#rm -rf /var/lock; \
+#mkdir -p /var/lock/; \
+cd /git/xcat-core/; \ 
+./build-ubunturepo -c UP=0 BUILDALL=1; 
+#./build-ubunturepo -d UP=0 BUILDALL=1
+
+#
+VOLUME ["/run","/gsa","/root/rpmbuild","/xcat-dep"]
+##CMD ["/usr/sbin/init"]
+#ENTRYPOINT ["/git/xcat-core/buildcore.sh"]
+ENTRYPOINT ["/git/xcat-core/build-ubunturepo"]
